@@ -27,16 +27,24 @@ Classifier <- function(num_samples, num_features, num_features_per_classifier) {
 }
 
 setMethod("predict",
-  signature("Ensemble"),
+  signature("Classifier"),
   function(object) {
     ## Compute prediction for all samples
-    ## Use NA for samples/vars not in bag.
+    ## Use NA for samples/vars not in bag. Not working because of drawing with replacement. 
     
-    ## Find k nearest neighbors
+    ## Compute distances for all test observations
+    ## TODO: Need training and test data here
+    distances <- apply(test_data, 1, mahalanobis, x = train_data, cov = cov(train_data))
+    
+    ## Sort rows or columns, get indices
     ## TODO
     
-    ## Weighting function? Distance metric?
+    ## Get top k indices -> k nearest neighbors
     ## TODO
+    
+    ## TODO: distances matrix should be symmetrical? Just compute one part?
+    ## TODO: Switch for other metrics
+    ## TODO: Weighting function?
     
     ## Compute Kaplan-Meier estimator using the k nearest neighbors
     ## TODO
