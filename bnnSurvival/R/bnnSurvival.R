@@ -23,18 +23,21 @@ bnnSurvival <- function(formula, data, k = 1, num_classifiers = 1,
   
   ## Create ensemble of classifiers
   ensemble <- Ensemble(data = model,
-                 classifiers = replicate(num_classifiers, 
-                     Classifier(num_samples = num_samples, 
-                                num_features = num_features, 
-                                num_features_per_classifier = num_features_per_classifier)),
-                 num_classifiers = num_classifiers,
-                 num_features_per_classifier = num_features_per_classifier, 
-                 num_neighbors = k)
+                  classifiers = replicate(num_classifiers, 
+                    Classifier(num_samples = num_samples, 
+                               num_features = num_features, 
+                               num_features_per_classifier = num_features_per_classifier)),
+                  num_classifiers = num_classifiers,
+                  num_features_per_classifier = num_features_per_classifier, 
+                  num_neighbors = k)
   
-  ## Classify in each classifier
+  ## Predict in each classifier
+  predictions <- predict(ensemble)
   
   ## Aggregate results
+  result <- aggregate(predictions)
   
   ## Return result
-  
+  return(result)
 }
+
