@@ -13,9 +13,9 @@ Predictions <- function(predictions) {
 
 setMethod("aggregate",
   signature("Predictions"),
-    function(object) {
+    function(x) {
       ## Aggregate all predictions
-      aggregated_predictions <- apply(object@predictions, c(1,2), mean, 
+      aggregated_predictions <- apply(x@predictions, c(1,2), mean, 
                                       na.rm = TRUE)
       
       ## Create and return Result object

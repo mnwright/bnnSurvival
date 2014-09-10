@@ -2,7 +2,8 @@
 
 setClass("Ensemble", 
   representation(
-    data = "data.frame", 
+    train_data = "matrix", 
+    test_data = "matrix", 
     classifiers = "list",
     num_classifiers = "integer",
     num_features_per_classifier = "integer", 
@@ -10,10 +11,11 @@ setClass("Ensemble",
 )
 
 ## Constructor
-Ensemble <- function(data, classifiers, num_classifiers, num_features_per_classifier, 
+Ensemble <- function(train_data, test_data, classifiers, num_classifiers, num_features_per_classifier, 
                      num_neighbors) {
   new("Ensemble", 
-    data = data,
+    train_data = train_data,
+    test_data = test_data,
     classifiers = classifiers,
     num_classifiers = num_classifiers,
     num_features_per_classifier = num_features_per_classifier, 
@@ -22,9 +24,9 @@ Ensemble <- function(data, classifiers, num_classifiers, num_features_per_classi
 
 setMethod("predict",
   signature("Ensemble"),
-  function(object) {
+  function(object, metric, k) {
     ## Call predict on all classifiers
-    list_predictions <- lapply(classifiers, predict)
+    list_predictions <- lapply(object@classifiers, predict, metric, k)
     
     ## Create and return Predictions object
     array_predictions <- simplify2array(list_predictions)
