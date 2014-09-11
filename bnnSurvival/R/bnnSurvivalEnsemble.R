@@ -36,6 +36,8 @@ bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
     metric = metric)
 }
 
+## TODO: What to do if timepoints other than training ata given? ..
+## .. Now S == 1, because no deaths at other timepoints
 ##' Predict survival probabilities
 ##' @export
 setMethod("predict",

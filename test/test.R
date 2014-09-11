@@ -20,7 +20,7 @@ form <- formula(paste("Surv(time, status) ~ ", paste(all_vars, collapse= "+")))
 
 ## Run bnn Survival method
 model <- bnnSurvival(form, train_data, k = 50, num_base_learners = 1)
-result <- predict(model, test_data)
+result <- predict(model, test_data, sort(unique(test_data$time)))
 pred <- predictions(result)
 ##plot(timepoints(result), pred[112, ])
 
@@ -33,11 +33,27 @@ for (i in 1:nrow(test_data)) {
   x <- test_data[i, "time"]
   y <- 0.5
   points(timepoints(result), pred[i, ], col = "blue")
-  points(x, y, col = "red")
+  abline(v = x, col = "red")
   temp <- readline()
   if (temp != "") {
     break
   }
 }
+
+# time <- timepoints(result)
+# 
+# ## knn
+# ipec_j <- sapply(1:nrow(test_data), function(x) {
+#   mean((1 * (test_data$time[x] > time) - pred[x, ])^2)
+# })
+# ipec_knn <- mean(ipec_j)
+# 
+# ## Cox
+# ipec_j <- sapply(1:nrow(test_data), function(x) {
+#   mean((1 * (test_data$time[x] > time) - surv.fit[x]$surv)^2)
+# })
+# ipec_cox <- mean(ipec_j)
+
+
 
 
