@@ -14,7 +14,7 @@ bnnSurvivalBaseLearner <- function(num_samples, num_features, num_features_per_b
   
   ## Select a subset of features if not all
   if (num_features_per_base_learner == num_features) {
-    feature_space = 1:num_features
+    feature_space = 3:(num_features+2)
   } else {
     feature_space = sample(num_features_per_base_learner, 
                            num_features_per_base_learner, replace = FALSE)
@@ -55,8 +55,8 @@ setMethod("predict",
     })
     
     ## Get top k indices -> k nearest neighbors
-    nearest_neighbors_idx <- sorted_distances_idx[1:k, ]
-    nearest_neighbors_distances <- sorted_distances[1:k, ]
+    nearest_neighbors_idx <- sorted_distances_idx[1:k, , drop = FALSE]
+    nearest_neighbors_distances <- sorted_distances[1:k, , drop = FALSE]
     
     ## Weighting function
     ## For now use 1
@@ -67,7 +67,7 @@ setMethod("predict",
                        nrow = nrow(test_data))
     
     for (i in 1:nrow(test_data)) {    
-      neighbors <- train_data[nearest_neighbors_idx[, i], ]
+      neighbors <- train_data[nearest_neighbors_idx[, i], , drop = FALSE]
       weighted_neighbor_distances <- weighted_nearest_neighbors_distances[, i]
       
       ## Compute at risk for each timepoint
@@ -75,14 +75,21 @@ setMethod("predict",
         neighbors[, 1] >= x
       })
       at_risk_weighted <- weighted_neighbor_distances * at_risk
-      n_i <- colSums(at_risk_weighted)
-      
+     
       ## Compute deaths for each timepoint
       death <- sapply(timepoints, function(x) {
         neighbors[, 1] == x
       })
       death_weighted <- weighted_neighbor_distances * death * neighbors[, 2]
-      d_i <- colSums(death_weighted)
+      
+      ## Sum for neighbors
+      if (k == 1) {
+        n_i <- at_risk_weighted
+        d_i <- death_weighted
+      } else {
+        n_i <- colSums(at_risk_weighted)
+        d_i <- colSums(death_weighted)
+      }
       
       hazard <- rep(0, length(timepoints))
       hazard[n_i != 0] <- d_i[n_i != 0] / n_i[n_i != 0]

@@ -13,16 +13,16 @@ bnnSurvivalResult <- function(prediction, timepoints) {
     timepoints = timepoints)
 }
 
-## Get Predictions
-setGeneric("predictions", function(object, ...) standardGeneric("predictions"))
+##' Get Predictions
+##' @export
 setMethod("predictions", signature("bnnSurvivalResult"), 
   function(object) {
     return(object@prediction)
   }
 )
 
-## Get Timepoints
-setGeneric("timepoints", function(object, ...) standardGeneric("timepoints"))
+##' Get Timepoints
+##' @export
 setMethod("timepoints", signature("bnnSurvivalResult"), 
   function(object) {
     return(object@timepoints)

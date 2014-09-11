@@ -36,10 +36,15 @@ bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
     metric = metric)
 }
 
-## Predict survival probabilities
+##' Predict survival probabilities
+##' @export
 setMethod("predict",
   signature("bnnSurvivalEnsemble"),
-  function(object, test_data) {
+  function(object, test_data, timepoints = NULL) {
+    
+    if (is.null(timepoints)) {
+      timepoints <- object@timepoints
+    }
     
     ## Generate model and matrix for test data
     test_model <- model.frame(object@formula, test_data)
@@ -52,11 +57,11 @@ setMethod("predict",
     
     ## Call predict on all base learners
     list_predictions <- lapply(object@base_learners, predict, object@train_data, 
-                               test_matrix, object@timepoints, object@metric, object@k)
+                               test_matrix, timepoints, object@metric, object@k)
     
     ## Aggregate predictions
     array_predictions <- simplify2array(list_predictions)
-    predictions <- bnnSurvivalPredictions(array_predictions, object@timepoints)
+    predictions <- bnnSurvivalPredictions(array_predictions, timepoints)
     result <- aggregate(predictions)
     
     ## Return result
