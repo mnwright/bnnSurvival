@@ -36,6 +36,9 @@ setMethod("predict",
     train_data <- train_data[object@bootstrap_sample, 
                              c(1, 2, object@feature_space)]
     
+    ## Subsample features in test data
+    test_data <- test_data[, c(1, 2, object@feature_space)]
+    
     ## Compute distances to training obs for all test obs
     if (metric == "mahalanobis") {
       distances <- apply(test_data[, -c(1, 2)], 1, mahalanobis, 
