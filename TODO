@@ -1,5 +1,13 @@
 
 - Write R help
+  -> Parallel not in Windows! (Test if it works)
+  -> Only Mahalanobis metric supported
 - Description file
-- Parallelize
-- Other weights and metrics
+- Parts to c++?
+- mcapply in Ensemble?
+- Problems in predict: Lapack routine dgesv: system is exactly singular: U[1,1] = 0 
+
+- Print function in result
+- What to do if timepoints other than training data given? (Ensemble)
+
+- Test if results really so good? 

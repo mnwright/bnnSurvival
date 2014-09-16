@@ -1,7 +1,8 @@
 
 ##' @export
 bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1, 
-                        num_features_per_base_learner = NULL, metric = "mahalanobis") {
+                        num_features_per_base_learner = NULL, metric = "mahalanobis", 
+                        weighting_function = function(x){x*0+1}) {
   
   ## Generate model and matrix for training data
   formula <- formula(formula)
@@ -36,7 +37,7 @@ bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1,
                   formula = formula,
                   num_base_learners = num_base_learners,
                   num_features_per_base_learner = num_features_per_base_learner, 
-                  k = k, metric = metric)
+                  k = k, metric = metric, weighting_function = weighting_function)
   
   return(ensemble)
 }

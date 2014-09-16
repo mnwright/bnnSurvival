@@ -9,13 +9,14 @@ setClass("bnnSurvivalEnsemble",
     num_features_per_base_learner = "integer", 
     k = "integer",
     timepoints = "numeric", 
-    metric = "character")
+    metric = "character",
+    weighting_function = "function")
 )
 
 ## Constructor
 bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners, 
                                 num_features_per_base_learner, k, 
-                                metric) {
+                                metric, weighting_function) {
   ## Get unique timepoints
   timepoints <- sort(unique(train_data[, 1]))
   
@@ -33,9 +34,11 @@ bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
     num_features_per_base_learner = num_features_per_base_learner, 
     k = k,
     timepoints = timepoints,
-    metric = metric)
+    metric = metric,
+    weighting_function = weighting_function)
 }
 
+## TODO: mclapply vs. lapply?
 ## TODO: What to do if timepoints other than training ata given? ..
 ## .. Now S == 1, because no deaths at other timepoints
 ##' Predict survival probabilities
@@ -59,7 +62,8 @@ setMethod("predict",
     
     ## Call predict on all base learners
     list_predictions <- mclapply(object@base_learners, predict, object@train_data, 
-                               test_matrix, timepoints, object@metric, object@k)
+                               test_matrix, timepoints, object@metric, 
+                               object@weighting_function, object@k)
     
     ## Aggregate predictions
     array_predictions <- simplify2array(list_predictions)
