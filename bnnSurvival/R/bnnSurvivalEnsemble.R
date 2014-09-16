@@ -58,7 +58,7 @@ setMethod("predict",
     }
     
     ## Call predict on all base learners
-    list_predictions <- lapply(object@base_learners, predict, object@train_data, 
+    list_predictions <- mclapply(object@base_learners, predict, object@train_data, 
                                test_matrix, timepoints, object@metric, object@k)
     
     ## Aggregate predictions
