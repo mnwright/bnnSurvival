@@ -3,10 +3,8 @@
   -> Parallel not in Windows! (Test if it works)
   -> Only Mahalanobis metric supported
 - Description file
-- Parts to c++?
 - mcapply in Ensemble?
 
 - Print function in result
 - What to do if timepoints other than training data given? (Ensemble)
-
-- Test if results still good. If not, do not spend too much time.
+- What happens if non-sorted timepoints given?
