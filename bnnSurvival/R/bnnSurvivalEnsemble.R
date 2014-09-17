@@ -38,17 +38,15 @@ bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
     weighting_function = weighting_function)
 }
 
-## TODO: mclapply vs. lapply?
-## TODO: What to do if timepoints other than training ata given? ..
-## .. Now S == 1, because no deaths at other timepoints
-
 ##' Predict survival probabilities with bagged k-nearest neighbors survival prediction.
 ##' @param object Object of class bnnSurvivalEnsemble, created with bnnSurvival().
-##' @param test_data Data set containing data to predict survival. 
-##' ##' @export
+##' @param test_data Data set containing data to predict survival.
+##' @import methods
+##' @importFrom parallel mclapply
+##' @export
 setMethod("predict", signature("bnnSurvivalEnsemble"),
   function(object, test_data) {
-    
+
     ## Generate model and matrix for test data
     test_model <- model.frame(object@formula[-2], test_data)
     test_matrix <- data.matrix(test_model)
@@ -75,7 +73,9 @@ setMethod("predict", signature("bnnSurvivalEnsemble"),
   }
 )
 
-##' Generic print method
+##' Generic print method for bnnSurvivalEnsemble
+##' @param x bnnSurvivalEnsemble object to print
+##' @import methods
 ##' @export
 setMethod("print", signature("bnnSurvivalEnsemble"),
   function(x) {
@@ -92,7 +92,9 @@ setMethod("print", signature("bnnSurvivalEnsemble"),
   }
 )
 
-##' Generic show method
+##' Generic show method for bnnSurvivalEnsemble
+##' @param object bnnSurvivalEnsemble object to show
+##' @import methods
 ##' @export
 setMethod("show", signature("bnnSurvivalEnsemble"),
   function(object) {

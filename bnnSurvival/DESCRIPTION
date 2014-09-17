@@ -5,8 +5,16 @@ Version: 0.1.0
 Date: 2014-09-17
 Author: Marvin N. Wright
 Maintainer: Marvin N. Wright <wright@imbs.uni-luebeck.de>
-Description: This package implements a bootstrap aggregated (bagged) version of the k-nearest neighbors survival probability prediction method (Lowsky et al. 2013). In addition to the bootstrapping of training samples, the features can be subsampled in each baselearner to break the correlation between them. The Rcpp package is used to speed up the computation.
-Depends: parallel
-Imports: Rcpp (>= 0.11.2)
+Description: This package implements a bootstrap aggregated (bagged) version of
+    the k-nearest neighbors survival probability prediction method (Lowsky et
+    al. 2013). In addition to the bootstrapping of training samples, the
+    features can be subsampled in each baselearner to break the correlation
+    between them. The Rcpp package is used to speed up the computation.
+Imports:
+    Rcpp (>= 0.11.2),
+    parallel,
+    methods
 LinkingTo: Rcpp
+Suggests:
+    survival
 License: GPL-3

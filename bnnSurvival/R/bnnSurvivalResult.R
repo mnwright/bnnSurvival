@@ -1,21 +1,20 @@
 
-## TODO: Add print function
 setClass("bnnSurvivalResult",
   representation(
-    prediction = "matrix", 
-    timepoints = "numeric", 
-    num_base_learners = "integer",  
+    prediction = "matrix",
+    timepoints = "numeric",
+    num_base_learners = "integer",
     num_features_per_base_learner = "integer",
-    k = "integer", 
+    k = "integer",
     n_train = "integer")
 )
 
 ## Constructor
-bnnSurvivalResult <- function(prediction, timepoints, num_base_learners, 
+bnnSurvivalResult <- function(prediction, timepoints, num_base_learners,
                               num_features_per_base_learner, k, n_train) {
-  new("bnnSurvivalResult", 
-    prediction = prediction, 
-    timepoints = timepoints, 
+  new("bnnSurvivalResult",
+    prediction = prediction,
+    timepoints = timepoints,
     num_base_learners = num_base_learners,
     num_features_per_base_learner = num_features_per_base_learner,
     k = k,
@@ -23,22 +22,25 @@ bnnSurvivalResult <- function(prediction, timepoints, num_base_learners,
 }
 
 ##' Get Predictions
+##' @param object bnnSurvivalResult object to extract predictions from
 ##' @export
-setMethod("predictions", signature("bnnSurvivalResult"), 
+setMethod("predictions", signature("bnnSurvivalResult"),
   function(object) {
     return(object@prediction)
   }
 )
 
-##' Get Timepoints
+##' Get timepoints
+##' @param object bnnSurvivalResult object to extract timepoints from
 ##' @export
-setMethod("timepoints", signature("bnnSurvivalResult"), 
+setMethod("timepoints", signature("bnnSurvivalResult"),
   function(object) {
     return(object@timepoints)
   }
 )
 
-##' Generic print method
+##' Generic print method for bnnSurvivalResult
+##' @param x bnnSurvivalResult object to print
 ##' @export
 setMethod("print", signature("bnnSurvivalResult"),
   function(x) {
@@ -53,10 +55,11 @@ setMethod("print", signature("bnnSurvivalResult"),
   }
 )
 
-##' Generic show method
+##' Generic show method for bnnSurvivalResult
+##' @param object bnnSurvivalResult object to show
 ##' @export
 setMethod("show", signature("bnnSurvivalResult"),
   function(object) {
-    print(object)  
+    print(object)
   }
 )
