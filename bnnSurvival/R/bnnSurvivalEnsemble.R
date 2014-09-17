@@ -89,14 +89,14 @@ setMethod("print", signature("bnnSurvivalEnsemble"),
     cat("Number of training observations:   ", nrow(x@train_data), "\n")
     cat("Used metric:                       ", x@metric, "\n\n")
     cat("Weoghting function:                ", deparse(x@weighting_function), "\n\n") 
-    cat("Use predictions() and timepoints() functions to access the results.")
+    cat("Use predictions() and timepoints() functions to access the results.\n")
   }
 )
 
 ##' Generic show method
 ##' @export
 setMethod("show", signature("bnnSurvivalEnsemble"),
-  function(x) {
-    print(x)  
+  function(object) {
+    print(object)  
   }
 )
