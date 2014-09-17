@@ -1,4 +1,6 @@
 
+##' @importFrom Rcpp evalCpp
+##' @useDynLib bnnSurvival
 ##' @export
 bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1, 
                         num_features_per_base_learner = NULL, metric = "mahalanobis", 

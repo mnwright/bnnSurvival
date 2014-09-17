@@ -70,43 +70,11 @@ setMethod("predict",
     weighted_nearest_neighbors_distances <- weighting_function(nearest_neighbors_distances)
     
     ## Compute Kaplan-Meier estimator using the k nearest neighbors for each test obs
-    survival <- matrix(rep(0, length(timepoints) * test_n), 
-                       nrow = test_n)
-    
-    for (i in 1:test_n) {    
+    survival <- t(sapply(1:test_n, function(i) {
       neighbors_response <- train_response[nearest_neighbors_idx[, i], , drop = FALSE]
       weighted_neighbor_distances <- weighted_nearest_neighbors_distances[, i]
-      
-      ## Compute at risk for each timepoint
-      at_risk <- sapply(timepoints, function(x) {
-        neighbors_response[, 1] >= x
-      })
-      at_risk_weighted <- weighted_neighbor_distances * at_risk
-     
-      ## Compute deaths for each timepoint
-      death <- sapply(timepoints, function(x) {
-        neighbors_response[, 1] == x
-      })
-      death_weighted <- weighted_neighbor_distances * death * neighbors_response[, 2]
-      
-      ## Sum for neighbors
-      if (k == 1) {
-        n_i <- at_risk_weighted
-        d_i <- death_weighted
-      } else {
-        n_i <- colSums(at_risk_weighted)
-        d_i <- colSums(death_weighted)
-      }
-            
-      hazard <- rep(0, length(timepoints))
-      hazard[n_i != 0] <- d_i[n_i != 0] / n_i[n_i != 0]
-      
-      ## Compute survival prediction
-      survival[i, 1] <- 1 - hazard[1]
-      for (j in 2:length(timepoints)) {
-        survival[i, j] <- survival[i, j - 1] * (1 - hazard[j])
-      }
-    }
+      weighted_kaplan_meier(neighbors_response, weighted_neighbor_distances, timepoints)
+    }))
     
     ## Return a matrix with predictions for all test samples and timepoints
     return(survival)
