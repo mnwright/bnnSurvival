@@ -3,6 +3,8 @@
 export(bnnSurvival)
 exportMethods(predict)
 exportMethods(predictions)
+exportMethods(print)
+exportMethods(show)
 exportMethods(timepoints)
 importFrom(Rcpp,evalCpp)
 useDynLib(bnnSurvival)
