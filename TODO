@@ -2,9 +2,8 @@
 - Write R help
   -> Parallel not in Windows! (Test if it works)
   -> Only Mahalanobis metric supported
-- Description file
+- Cran check
 - mcapply in Ensemble?
 
-- Print function in result
 - What to do if timepoints other than training data given? (Ensemble)
 - What happens if non-sorted timepoints given?

@@ -43,8 +43,7 @@ bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
 ## .. Now S == 1, because no deaths at other timepoints
 ##' Predict survival probabilities
 ##' @export
-setMethod("predict",
-  signature("bnnSurvivalEnsemble"),
+setMethod("predict", signature("bnnSurvivalEnsemble"),
   function(object, test_data, timepoints = NULL) {
     
     if (is.null(timepoints)) {
@@ -67,10 +66,37 @@ setMethod("predict",
     
     ## Aggregate predictions
     array_predictions <- simplify2array(list_predictions)
-    predictions <- bnnSurvivalPredictions(array_predictions, timepoints)
+    predictions <- bnnSurvivalPredictions(array_predictions, timepoints, object@num_base_learners, 
+                                          object@num_features_per_base_learner, object@k, 
+                                          nrow(object@train_data))
     result <- aggregate(predictions)
     
     ## Return result
     return(result)
+  }
+)
+
+##' Generic print method
+##' @export
+setMethod("print", signature("bnnSurvivalEnsemble"),
+  function(x) {
+    cat("bnnSurvival ensemble object\n\n")
+    cat("Formula:                           ", deparse(x@formula), "\n")
+    cat("Number of base learners:           ", x@num_base_learners, "\n")
+    cat("Number of fatures per base learner ", x@num_features_per_base_learner, "\n")
+    cat("Number of neighbors (k):           ", x@k, "\n")
+    cat("Number of timepoints:              ", length(x@timepoints), "\n")
+    cat("Number of training observations:   ", nrow(x@train_data), "\n")
+    cat("Used metric:                       ", x@metric, "\n\n")
+    cat("Weoghting function:                ", deparse(x@weighting_function), "\n\n") 
+    cat("Use predictions() and timepoints() functions to access the results.")
+  }
+)
+
+##' Generic show method
+##' @export
+setMethod("show", signature("bnnSurvivalEnsemble"),
+  function(x) {
+    print(x)  
   }
 )
