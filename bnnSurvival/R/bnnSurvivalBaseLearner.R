@@ -41,7 +41,7 @@ setMethod("predict",
     ## Compute distances to training obs for all test obs
     if (metric == "mahalanobis") {
       train_cov <- cov(train_features)
-      distances <- apply(test_data[, object@feature_space+2, drop = FALSE], 1, 
+      distances <- apply(test_data[, object@feature_space, drop = FALSE], 1, 
                          mahalanobis, 
                          x = train_features, 
                          cov = train_cov)
