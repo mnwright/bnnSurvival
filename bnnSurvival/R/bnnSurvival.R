@@ -9,7 +9,7 @@ bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1,
   if (class(formula) != "formula") {
     stop("Error: Invalid formula.")
   }
-  train_model <- model.frame(formula, train_data)
+  train_model <- model.frame(formula, data)
   train_matrix <- data.matrix(cbind(train_model[, 1][, c(1,2)], train_model[, -1]))
   
   ## Check arguments
@@ -17,6 +17,9 @@ bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1,
     k <- as.integer(k)
   } else {
     stop("k is no positive number.")
+  }
+  if (k > nrow(train_matrix)) {
+    stop("k cannot be larger than the number of observations in data.")
   }
   if (is.numeric(num_base_learners) & !is.na(num_base_learners) & num_base_learners > 0) {
     num_base_learners <- as.integer(num_base_learners)
