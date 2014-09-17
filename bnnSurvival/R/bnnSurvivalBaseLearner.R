@@ -38,15 +38,11 @@ setMethod("predict",
     train_response <- train_data[object@bootstrap_sample, 
                                  c(1,2), drop = FALSE]
     
-    ## Subsample features in test data
-    test_features <- test_data[, object@feature_space+2, drop = FALSE]
-    test_response <- test_data[, c(1,2), drop = FALSE]
-    test_n <- nrow(test_response)
-    
     ## Compute distances to training obs for all test obs
     if (metric == "mahalanobis") {
       train_cov <- cov(train_features)
-      distances <- apply(test_features, 1, mahalanobis, 
+      distances <- apply(test_data[, object@feature_space+2, drop = FALSE], 1, 
+                         mahalanobis, 
                          x = train_features, 
                          cov = train_cov)
     } else {
@@ -55,25 +51,12 @@ setMethod("predict",
     
     ## Sort rows or columns, get indices
     temp <- apply(distances, 2, sort, index.return = TRUE)
-    sorted_distances_idx <- sapply(temp, function(x) {
-      return(x$ix)
-    })
-    sorted_distances <- sapply(temp, function(x) {
-      return(x$x)
-    })
-    
-    ## Get top k indices -> k nearest neighbors
-    nearest_neighbors_idx <- sorted_distances_idx[1:k, , drop = FALSE]
-    nearest_neighbors_distances <- sorted_distances[1:k, , drop = FALSE]
-    
-    ## Weighting function
-    weighted_nearest_neighbors_distances <- weighting_function(nearest_neighbors_distances)
-    
+
     ## Compute Kaplan-Meier estimator using the k nearest neighbors for each test obs
-    survival <- t(sapply(1:test_n, function(i) {
-      neighbors_response <- train_response[nearest_neighbors_idx[, i], , drop = FALSE]
-      weighted_neighbor_distances <- weighted_nearest_neighbors_distances[, i]
-      weighted_kaplan_meier(neighbors_response, weighted_neighbor_distances, timepoints)
+    survival <- t(sapply(temp, function(x) {
+      weighted_kaplan_meier(response = train_response[x$ix[1:k], , drop = FALSE], 
+                            weights = weighting_function(x$x[1:k]), 
+                            timepoints = timepoints)
     }))
     
     ## Return a matrix with predictions for all test samples and timepoints
