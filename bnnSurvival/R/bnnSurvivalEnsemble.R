@@ -48,11 +48,11 @@ setMethod("predict", signature("bnnSurvivalEnsemble"),
   function(object, test_data) {
 
     ## Generate model and matrix for test data
-    test_model <- model.frame(object@formula[-2], test_data)
-    test_matrix <- data.matrix(test_model)
+    covar_names <- labels(terms(object@formula, data = test_data))
+    test_matrix <- data.matrix(test_data[, covar_names])
 
     ## Check if training and test data are of same structure
-    if (!all(colnames(test_matrix) == colnames(object@train_data)[c(-1, -2)])) {
+    if (!all(covar_names %in% colnames(object@train_data)[c(-1, -2)])) {
       stop("Training and test data are not of same structure.")
     }
 
@@ -88,7 +88,7 @@ setMethod("print", signature("bnnSurvivalEnsemble"),
     cat("Number of training observations:   ", nrow(x@train_data), "\n")
     cat("Used metric:                       ", x@metric, "\n\n")
     cat("Weoghting function:                ", deparse(x@weighting_function), "\n\n")
-    cat("Use predictions() and timepoints() functions to access the results.\n")
+    cat("Use predict() method to predict surival probabilities for new data.\n")
   }
 )
 

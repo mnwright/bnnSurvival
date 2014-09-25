@@ -11,11 +11,11 @@ registerDoMC(4)
 ##data("cost")
 
 ## Method to use bnnSurvival with pec
-predictSurvProb.bnnSurvivalEnsemble <- function(object, newdata, times, ...) {
-  result <- predict(object, newdata)
-  ##prodlim::sindex(result$timepoints, times)
-  return(predictions(result))
-}
+# predictSurvProb.bnnSurvivalEnsemble <- function(object, newdata, times, ...) {
+#   result <- predict(object, newdata)
+#   ##prodlim::sindex(result$timepoints, times)
+#   return(predictions(result))
+# }
 
 ## Data
 ##dat <- cost

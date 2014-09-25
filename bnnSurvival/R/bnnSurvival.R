@@ -72,11 +72,16 @@ bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1,
   }
   if (is.null(num_features_per_base_learner)) {
     num_features_per_base_learner <- as.integer(ncol(train_matrix) - 2)
-  } else if (is.numeric(num_features_per_base_learner) &
-             !is.na(num_features_per_base_learner) & num_features_per_base_learner > 0) {
-    num_features_per_base_learner <- as.integer(num_features_per_base_learner)
+  } else if (is.numeric(num_features_per_base_learner) & !is.na(num_features_per_base_learner)) {
+    if (num_features_per_base_learner <= 0) {
+      stop("num_features_per_base_learner is no positive number.")
+    } else if (num_features_per_base_learner > ncol(train_matrix) - 2) {
+      stop("num_features_per_base_learner is larger than number of features.")
+    } else {
+      num_features_per_base_learner <- as.integer(num_features_per_base_learner)
+    }   
   } else {
-    stop("num_features_per_base_learner is no positive number.")
+    stop("num_features_per_base_learner is no number.")
   }
 
   ## Create ensemble of base learners
