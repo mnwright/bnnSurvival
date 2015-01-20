@@ -18,3 +18,11 @@ model <- bnnSurvival(formula, train_data, k = 50, num_base_learners = 10, num_fe
 result <- predict(model, test_data)
 pred <- predictions(result)
 plot(timepoints(result), pred[1, ])
+
+## Test replace and sample_fraction
+model <- bnnSurvival(formula, train_data, k = 50, num_base_learners = 10, num_features_per_base_learner = 5, 
+                     replace = FALSE)
+predict(model, test_data)
+model <- bnnSurvival(formula, train_data, k = 50, num_base_learners = 10, num_features_per_base_learner = 5, 
+                     replace = FALSE, sample_fraction = 1)
+predict(model, test_data)
