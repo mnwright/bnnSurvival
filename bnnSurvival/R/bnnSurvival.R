@@ -1,7 +1,7 @@
 
 
 
-##' Bootstrap aggregated (bagged) version of the k-nearest neighbors survival probability prediction method (Lowsky et al. 2012). 
+##' Bootstrap aggregated (bagged) version of the k-nearest neighbors survival probability prediction method (Lowsky et al. 2013). 
 ##' In addition to the bootstrapping of training samples, the features can be subsampled in each base learner. 
 ##'
 ##' For a description of the k-nearest neighbors survival probability prediction method see (Lowsky et al. 2013). 
@@ -10,7 +10,7 @@
 ##' The weighting function needs to be defined for all distances >= 0. 
 ##' The default function is constant 1, a possible alternative is w(x) = 1/(1+x). 
 ##' 
-##' To use the non-bagged version as in Lowsky et al. 2012, use \code{num_base_learners=1}, \code{replace=FALSE} and \code{sample_fraction=1}.
+##' To use the non-bagged version as in Lowsky et al. 2013, use \code{num_base_learners=1}, \code{replace=FALSE} and \code{sample_fraction=1}.
 ##' 
 ##' @title Bagged k-nearest neighbors survival prediction
 ##' @param formula Object of class formula or character describing the model to fit.
