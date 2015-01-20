@@ -10,13 +10,16 @@ setClass("bnnSurvivalEnsemble",
     k = "integer",
     timepoints = "numeric",
     metric = "character",
-    weighting_function = "function")
+    weighting_function = "function",
+    replace = "logical", 
+    sample_fraction = "numeric")
 )
 
 ## Constructor
 bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
                                 num_features_per_base_learner, k,
-                                metric, weighting_function) {
+                                metric, weighting_function, 
+                                replace = replace, sample_fraction = sample_fraction) {
   ## Get unique timepoints
   timepoints <- sort(unique(train_data[, 1]))
 
@@ -24,7 +27,8 @@ bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
   base_learners <- replicate(num_base_learners, bnnSurvivalBaseLearner(
                       num_samples = nrow(train_data),
                       num_features = ncol(train_data) - 2,
-                      num_features_per_base_learner = num_features_per_base_learner))
+                      num_features_per_base_learner = num_features_per_base_learner,
+                      replace = replace, sample_fraction = sample_fraction))
 
   new("bnnSurvivalEnsemble",
     train_data = train_data,
@@ -35,7 +39,9 @@ bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
     k = k,
     timepoints = timepoints,
     metric = metric,
-    weighting_function = weighting_function)
+    weighting_function = weighting_function,
+    replace = replace, 
+    sample_fraction = sample_fraction)
 }
 
 ##' Predict survival probabilities with bagged k-nearest neighbors survival prediction.
@@ -56,8 +62,9 @@ setMethod("predict", signature("bnnSurvivalEnsemble"),
       stop("Training and test data are not of same structure.")
     }
 
+    ## TODO: Change back to mclapply
     ## Call predict on all base learners
-    list_predictions <- mclapply(object@base_learners, predict, object@train_data,
+    list_predictions <- lapply(object@base_learners, predict, object@train_data,
                                test_matrix, object@timepoints, object@metric,
                                object@weighting_function, object@k)
 
@@ -86,8 +93,10 @@ setMethod("print", signature("bnnSurvivalEnsemble"),
     cat("Number of neighbors (k):           ", x@k, "\n")
     cat("Number of timepoints:              ", length(x@timepoints), "\n")
     cat("Number of training observations:   ", nrow(x@train_data), "\n")
-    cat("Used metric:                       ", x@metric, "\n\n")
-    cat("Weoghting function:                ", deparse(x@weighting_function), "\n\n")
+    cat("Used metric:                       ", x@metric, "\n")
+    cat("Weighting function:                ", deparse(x@weighting_function), "\n")
+    cat("Sample with replacement:           ", x@replace, "\n")
+    cat("Sample fraction:                   ", x@sample_fraction, "\n\n")
     cat("Use predict() method to predict surival probabilities for new data.\n")
   }
 )

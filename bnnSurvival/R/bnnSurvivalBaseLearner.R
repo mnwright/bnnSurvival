@@ -7,10 +7,15 @@ setClass("bnnSurvivalBaseLearner",
 )
 
 ## Constructor: Randomly generate bootstrap sample and feature space
-bnnSurvivalBaseLearner <- function(num_samples, num_features, num_features_per_base_learner) {
+bnnSurvivalBaseLearner <- function(num_samples, num_features, num_features_per_base_learner,
+                                   replace, sample_fraction) {
 
   ## Bootstrap samples
-  bootstrap_sample = sample(num_samples, num_samples, replace = TRUE)
+  if (!replace & sample_fraction == 1) {
+    bootstrap_sample <- 1:num_samples
+  } else {
+    bootstrap_sample <- sample(num_samples, num_samples * sample_fraction, replace = replace)
+  }
 
   ## Select a subset of features if not all
   if (num_features_per_base_learner == num_features) {
