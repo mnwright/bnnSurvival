@@ -2,13 +2,15 @@
 
 
 ##' Bootstrap aggregated (bagged) version of the k-nearest neighbors survival probability prediction method (Lowsky et al. 2012). 
-##' In addition to the bootstrapping of training samples, the features can be subsampled in each baselearner. 
+##' In addition to the bootstrapping of training samples, the features can be subsampled in each base learner. 
 ##'
 ##' For a description of the k-nearest neighbors survival probability prediction method see (Lowsky et al. 2013). 
 ##' Please note, that parallel processing, as currently implemented, does not work on Microsoft Windows platforms.
 ##' 
 ##' The weighting function needs to be defined for all distances >= 0. 
 ##' The default function is constant 1, a possible alternative is w(x) = 1/(1+x). 
+##' 
+##' To use the non-bagged version as in Lowsky et al. 2012, use \code{num_base_learners=1}, \code{replace=FALSE} and \code{sample_fraction=1}.
 ##' 
 ##' @title Bagged k-nearest neighbors survival prediction
 ##' @param formula Object of class formula or character describing the model to fit.
@@ -18,6 +20,8 @@
 ##' @param num_features_per_base_learner Number of features randomly selected in each base learner.
 ##' @param metric Metric d(x,y) used to measure the distance between observations. Currently only "mahalanobis".
 ##' @param weighting_function Weighting function w(d(,x,y)) used to weight the observations based on their distance.
+##' @param replace Sample with or without replacement. 
+##' @param sample_fraction Fraction of observations to sample in [0,1]. Default is 1 for \code{replace=TRUE}, and 0.6321 for \code{replace=FALSE}. 
 ##' @return bnnSurvivalEnsemble object. Use predict() with a new data set to predict survival probabilites.
 ##' @examples
 ##' require(bnnSurvival)
@@ -46,7 +50,8 @@
 ##' @export
 bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1,
                         num_features_per_base_learner = NULL, metric = "mahalanobis",
-                        weighting_function = function(x){x*0+1}) {
+                        weighting_function = function(x){x*0+1}, 
+                        replace = TRUE, sample_fraction = NULL) {
 
   ## Generate model and matrix for training data
   formula <- formula(formula)
@@ -83,13 +88,24 @@ bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1,
   } else {
     stop("num_features_per_base_learner is no number.")
   }
+  if (is.null(sample_fraction)) {
+    if (replace) {
+      sample_fraction <- 1
+    } else {
+      sample_fraction <- 0.6321
+    }
+  } 
+  if (sample_fraction > 1 | sample_fraction < 0) {
+    stop("sample_fraction is not in [0,1] interval.")
+  }
 
   ## Create ensemble of base learners
   ensemble <- bnnSurvivalEnsemble(train_data = train_matrix,
                   formula = formula,
                   num_base_learners = num_base_learners,
                   num_features_per_base_learner = num_features_per_base_learner,
-                  k = k, metric = metric, weighting_function = weighting_function)
+                  k = k, metric = metric, weighting_function = weighting_function, 
+                  replace = replace, sample_fraction = sample_fraction)
 
   return(ensemble)
 }
