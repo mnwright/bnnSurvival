@@ -17,7 +17,7 @@
 ##' @param data Training data of class data.frame.
 ##' @param k Number nearest neighbors to use.
 ##' @param num_base_learners Number of base learners to use for bootstrapping.
-##' @param num_features_per_base_learner Number of features randomly selected in each base learner.
+##' @param num_features_per_base_learner Number of features randomly selected in each base learner. Default: all.
 ##' @param metric Metric d(x,y) used to measure the distance between observations. Currently only "mahalanobis".
 ##' @param weighting_function Weighting function w(d(,x,y)) used to weight the observations based on their distance.
 ##' @param replace Sample with or without replacement. 
@@ -48,7 +48,7 @@
 ##' @importFrom Rcpp evalCpp
 ##' @useDynLib bnnSurvival
 ##' @export
-bnnSurvival <- function(formula, data, k = 1, num_base_learners = 1,
+bnnSurvival <- function(formula, data, k = max(1, nrow(data)/10), num_base_learners = 50,
                         num_features_per_base_learner = NULL, metric = "mahalanobis",
                         weighting_function = function(x){x*0+1}, 
                         replace = TRUE, sample_fraction = NULL) {

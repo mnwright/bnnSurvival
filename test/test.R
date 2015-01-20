@@ -26,3 +26,9 @@ predict(model, test_data)
 model <- bnnSurvival(formula, train_data, k = 50, num_base_learners = 10, num_features_per_base_learner = 5, 
                      replace = FALSE, sample_fraction = 1)
 predict(model, test_data)
+
+## Test default values
+model <- bnnSurvival(formula, train_data, replace = FALSE, sample_fraction = 1)
+predict(model, test_data)
+
+
