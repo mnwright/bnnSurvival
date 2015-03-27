@@ -31,4 +31,8 @@ predict(model, test_data)
 model <- bnnSurvival(formula, train_data, replace = FALSE, sample_fraction = 1)
 predict(model, test_data)
 
+## Test optimal k 
+bnnSurvival:::get_best_k() ## TODO
+## TODO: Use function 
+## TODO: Check package
 
