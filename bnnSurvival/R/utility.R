@@ -2,8 +2,9 @@
 ##' Get optimal number of neighbors for bnnSurvival by cross validation
 ##' 
 ##' @title Get optimal number of neighbors
-##' @param k Number of neighbors
+##' @param formula Formula
 ##' @param data Data 
+##' @param k Number of neighbors
 ##' @param ... Further arguments passed to bnnSurvival 
 ##' @return Optimal k
 ##' @importFrom prodlim Hist
