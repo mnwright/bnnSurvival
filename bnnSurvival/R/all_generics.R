@@ -15,6 +15,7 @@ setGeneric("timepoints", function(object, ...) standardGeneric("timepoints"))
 ##' @param times Not used.
 ##' @param ... Not used.
 ##' @return survival probability predictions
+##' @importFrom pec predictSurvProb
 ##' @export
 predictSurvProb.bnnSurvivalEnsemble <- function(object, newdata, times, ...) {
   pred <- predict(object, newdata)

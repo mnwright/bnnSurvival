@@ -15,7 +15,7 @@
 ##' @title Bagged k-nearest neighbors survival prediction
 ##' @param formula Object of class formula or character describing the model to fit.
 ##' @param data Training data of class data.frame.
-##' @param k Number nearest neighbors to use.
+##' @param k Number nearest neighbors to use. If a vector is given, the optimal k of these values is found using 5-fold cross validation.
 ##' @param num_base_learners Number of base learners to use for bootstrapping.
 ##' @param num_features_per_base_learner Number of features randomly selected in each base learner. Default: all.
 ##' @param metric Metric d(x,y) used to measure the distance between observations. Currently only "mahalanobis".
@@ -62,14 +62,6 @@ bnnSurvival <- function(formula, data, k = max(1, nrow(data)/10), num_base_learn
   train_matrix <- data.matrix(cbind(train_model[, 1][, c(1,2)], train_model[, -1]))
 
   ## Check arguments
-  if (is.numeric(k) & !is.na(k) & k > 0) {
-    k <- as.integer(k)
-  } else {
-    stop("k is no positive number.")
-  }
-  if (k > nrow(train_matrix)) {
-    stop("k cannot be larger than the number of observations in data.")
-  }
   if (is.numeric(num_base_learners) & !is.na(num_base_learners) & num_base_learners > 0) {
     num_base_learners <- as.integer(num_base_learners)
   } else {
@@ -97,6 +89,21 @@ bnnSurvival <- function(formula, data, k = max(1, nrow(data)/10), num_base_learn
   } 
   if (sample_fraction > 1 | sample_fraction < 0) {
     stop("sample_fraction is not in [0,1] interval.")
+  }
+  if (is.numeric(k) && length(k) == 1 && !is.na(k) && k > 0) {
+    k <- as.integer(k)
+  } else if (is.numeric(k) && length(k) > 1 && all(!is.na(k)) && all(k > 0)) {
+    k <- get_best_k(formula = formula, data = data, k = k, 
+                    num_base_learners = num_base_learners,
+                    num_features_per_base_learner = num_features_per_base_learner, 
+                    metric = metric, weighting_function = weighting_function, 
+                    replace = replace, sample_fraction = sample_fraction)
+    k <- as.integer(k)
+  } else {
+    stop("k is no positive number.")
+  }
+  if (k > nrow(train_matrix)) {
+    stop("k cannot be larger than the number of observations in data.")
   }
 
   ## Create ensemble of base learners
