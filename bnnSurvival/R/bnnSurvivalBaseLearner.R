@@ -52,10 +52,15 @@ setMethod("predict",
     ## Compute distances to training obs for all test obs
     if (metric == "mahalanobis") {
       train_cov <- cov(train_features)
-      distances <- apply(test_data[, object@feature_space, drop = FALSE], 1,
+      
+      ## Ignore all-equal features
+      idx_nonzero <- rowMeans(train_cov) != 0
+      
+      ## Compute distances
+      distances <- apply(test_data[, object@feature_space[idx_nonzero], drop = FALSE], 1,
                          mahalanobis,
-                         x = train_features,
-                         cov = train_cov)
+                         x = train_features[, idx_nonzero],
+                         cov = train_cov[idx_nonzero, idx_nonzero])
     } else {
       stop("Currently no other distance metrics supported.")
     }
