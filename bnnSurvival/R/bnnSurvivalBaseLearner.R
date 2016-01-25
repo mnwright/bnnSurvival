@@ -60,7 +60,8 @@ setMethod("predict",
       distances <- apply(test_data[, object@feature_space[idx_nonzero], drop = FALSE], 1,
                          mahalanobis,
                          x = train_features[, idx_nonzero],
-                         cov = train_cov[idx_nonzero, idx_nonzero])
+                         cov = train_cov[idx_nonzero, idx_nonzero], 
+                         tol = 1e-25)
     } else {
       stop("Currently no other distance metrics supported.")
     }
