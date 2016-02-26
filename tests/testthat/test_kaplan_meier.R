@@ -3,6 +3,9 @@ library(bnnSurvival)
 
 context("kaplan_meier")
 
+## Use only 1 core
+options(mc.cores = 1)
+
 ## Weightes KM R function
 weighted_kaplan_meier <- function(response, weights, timepoints) {
   

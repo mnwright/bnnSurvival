@@ -4,6 +4,9 @@ library(pec)
 
 context("pec")
 
+## Use only 1 core
+options(mc.cores = 1)
+
 ## Data
 dat <- veteran
 n <- nrow(dat)

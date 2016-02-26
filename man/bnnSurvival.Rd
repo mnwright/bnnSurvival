@@ -47,6 +47,9 @@ To use the non-bagged version as in Lowsky et al. 2013, use \code{num_base_learn
 \examples{
 require(bnnSurvival)
 
+## Use only 1 core
+options(mc.cores = 1)
+
 ## Load a dataset and split in training and test data
 require(survival)
 n <- nrow(veteran)

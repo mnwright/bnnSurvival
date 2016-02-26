@@ -26,6 +26,9 @@
 ##' @examples
 ##' require(bnnSurvival)
 ##' 
+##' ## Use only 1 core
+##' options(mc.cores = 1)
+##' 
 ##' ## Load a dataset and split in training and test data
 ##' require(survival)
 ##' n <- nrow(veteran)
