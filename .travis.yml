@@ -9,6 +9,11 @@ r:
   
 r_binary_packages:
   - nlme
+  - stringi
+  - scales
+  - ggplot2
+  - Hmisc
+  - rms
 
 notifications:
   email:
