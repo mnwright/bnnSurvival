@@ -7,3 +7,4 @@ notifications:
         - work@wrig.de
     on_success: change
     on_failure: change
+    
