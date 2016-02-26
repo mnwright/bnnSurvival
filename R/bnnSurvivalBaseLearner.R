@@ -39,6 +39,7 @@ bnnSurvivalBaseLearner <- function(num_samples, num_features, num_features_per_b
 ##' @param metric Metric used
 ##' @param weighting_function Weighting function used
 ##' @param k Number of nearest neighbors
+##' @import stats 
 setMethod("predict",
   signature("bnnSurvivalBaseLearner"),
   function(object, train_data, test_data, timepoints, metric, weighting_function, k) {

@@ -48,6 +48,7 @@ bnnSurvivalEnsemble <- function(train_data, formula, num_base_learners,
 ##' @param object Object of class bnnSurvivalEnsemble, created with bnnSurvival().
 ##' @param test_data Data set containing data to predict survival.
 ##' @import methods
+##' @import stats
 ##' @importFrom parallel mclapply
 ##' @export
 setMethod("predict", signature("bnnSurvivalEnsemble"),

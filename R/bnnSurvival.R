@@ -45,6 +45,7 @@
 ##'   Lowsky, D.J. et al. (2013). A K-nearest neighbors survival probability prediction method. Stat Med, 32(12), 2062-2069.
 ##' @seealso \code{\link[=predict,bnnSurvivalEnsemble-method]{predict}}
 ##' @author Marvin N. Wright
+##' @import stats 
 ##' @importFrom Rcpp evalCpp
 ##' @useDynLib bnnSurvival
 ##' @export
