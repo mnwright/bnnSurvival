@@ -1,3 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 release
+.DS_Store
+.travis.yml
+.git
+.gitignore
+.Rhistory
+README.md
