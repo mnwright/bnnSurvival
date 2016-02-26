@@ -21,8 +21,8 @@ knn <- bnnSurvival(formula, train_data, k = 5, num_base_learners = 1, replace = 
 pred_knn <- predict(knn, test_data)
 
 test_that("result is of class bnnSurvival", {
-  expect_that(bnn, is_a("bnnSurvivalResult"))
-  expect_that(knn, is_a("bnnSurvivalResult"))
+  expect_that(bnn, is_a("bnnSurvivalEnsemble"))
+  expect_that(knn, is_a("bnnSurvivalEnsemble"))
 })
 
 test_that("prediction is of correct size", {
