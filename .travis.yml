@@ -1,0 +1,9 @@
+language: r
+warnings_are_errors: true
+
+notifications:
+  email:
+    recipients:
+        - work@wrig.de
+    on_success: change
+    on_failure: change
