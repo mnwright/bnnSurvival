@@ -7,9 +7,10 @@ r:
   - release
   - devel
   
-r_binary_packages:
+r_packages:
   - nlme
   - stringi
+  - stringr
   - scales
   - ggplot2
   - Hmisc
