@@ -15,10 +15,9 @@ Imports:
     pec,
     Rcpp (>= 0.11.2),
     parallel,
-    methods, 
-    survival
+    methods
 LinkingTo: Rcpp
 Suggests:
-    testthat
+    survival, testthat
 License: GPL-3
 RoxygenNote: 5.0.1
