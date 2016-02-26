@@ -10,15 +10,15 @@ Description: Implements a bootstrap aggregated (bagged) version of
     al. 2013). In addition to the bootstrapping of training samples, the
     features can be subsampled in each baselearner to break the correlation
     between them. The Rcpp package is used to speed up the computation.
-Depends:
-    prodlim
 Imports:
+    prodlim, 
+    pec,
     Rcpp (>= 0.11.2),
     parallel,
-    methods,
-    pec
+    methods, 
+    survival
 LinkingTo: Rcpp
 Suggests:
-    survival, testthat
+    testthat
 License: GPL-3
 RoxygenNote: 5.0.1
