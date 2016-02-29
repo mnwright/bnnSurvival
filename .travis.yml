@@ -1,6 +1,6 @@
 language: r
 warnings_are_errors: true
-cache: packages
+#cache: packages
 
 r:
   - oldrel
@@ -23,6 +23,7 @@ before_install:
     - sudo apt-get -qq install g++-4.8
     - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
     - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
+    - sudo apt-get -qq install gfortran-4.8
 
 notifications:
   email:
