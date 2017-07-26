@@ -13,4 +13,3 @@
 \description{
 Generic print method for bnnSurvivalEnsemble
 }
-

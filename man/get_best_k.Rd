@@ -21,4 +21,3 @@ Optimal k
 \description{
 Get optimal number of neighbors for bnnSurvival by cross validation
 }
-

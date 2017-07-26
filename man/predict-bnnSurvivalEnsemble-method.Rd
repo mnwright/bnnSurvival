@@ -15,4 +15,3 @@
 \description{
 Predict survival probabilities with bagged k-nearest neighbors survival prediction.
 }
-
