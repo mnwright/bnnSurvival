@@ -13,11 +13,9 @@ Description: Implements a bootstrap aggregated (bagged) version of
 Imports:
     prodlim, 
     pec,
-    Rcpp (>= 0.11.2),
     parallel,
     methods
-LinkingTo: Rcpp
 Suggests:
     survival, testthat
 License: GPL-3
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
