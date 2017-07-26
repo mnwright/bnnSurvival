@@ -13,3 +13,4 @@
 \description{
 Generic print method for bnnSurvivalResult
 }
+

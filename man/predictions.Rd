@@ -14,3 +14,4 @@ predictions(object, ...)
 \description{
 Get Predictions
 }
+

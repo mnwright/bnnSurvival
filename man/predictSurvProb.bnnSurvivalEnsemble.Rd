@@ -21,3 +21,4 @@ survival probability predictions
 \description{
 Function to extract survival probability predictions from bnnSurvivalEnsemble. Use with \code{pec} package.
 }
+

@@ -49,8 +49,9 @@
 ##' @seealso \code{\link[=predict,bnnSurvivalEnsemble-method]{predict}}
 ##' @author Marvin N. Wright
 ##' @import stats 
+##' @importFrom Rcpp evalCpp
+##' @useDynLib bnnSurvival
 ##' @export
-# ##' @useDynLib bnnSurvival
 bnnSurvival <- function(formula, data, k = max(1, nrow(data)/10), num_base_learners = 50,
                         num_features_per_base_learner = NULL, metric = "mahalanobis",
                         weighting_function = function(x){x*0+1}, 
